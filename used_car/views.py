@@ -147,21 +147,6 @@ def create_charges(request, pk):
 
 
 
-# def create_charges(request, pk):
-#     used_car = get_object_or_404(UsedCar, pk=pk)
-#     charges_entries = charges.objects.filter(used_car=used_car)
-
-#     if request.method == 'POST':
-#         form = ChargesForm(request.POST)
-#         if form.is_valid():
-#             charges_instance = form.save(commit=False)
-#             charges_instance.used_car = used_car
-#             charges_instance.save()
-#             return redirect('usedcar:used_car_list')
-#     else:
-#         form = ChargesForm()
-
-#     return render(request, 'used_car/create_charges.html', {'form': form, 'used_car': used_car, 'charges_entries': charges_entries})
 @login_required
 def delete_charges(request, pk):
     entry = get_object_or_404(charges, pk=pk)
