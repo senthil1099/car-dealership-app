@@ -4,6 +4,7 @@
 ## Installation:
     - Create Python Virtual Environment: 
         `python -m venv .venv`
+
 ## Activate Virtual Environment:
     - In cmd.exe
         `.venv\Scripts\activate.bat`
@@ -11,5 +12,15 @@
         `.venv\Scripts\Activate.ps1`
     - Linux and MacOS
         `source .venv/bin/activate`
+
+## Install requirements 
+    `pip3 install -r requirements.txt`
+
+## Create Required DB Schema
+    `python3 manage.py migrate`
+
+##  Start server
+    `python3 manage.py runserver`
+
 ## Deactivate the Python venv
     `deactivate`
