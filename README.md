@@ -1,2 +1,2 @@
-# car-dealership-tool
-car-dealership-tool is a web application developed using django framework. this system offers user-friendly interface to manage car inventory
+# car-dealership-app
+car-dealership-app is a web application developed using django framework. this system offers user-friendly interface to manage car inventory
