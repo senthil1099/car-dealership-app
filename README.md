@@ -1,5 +1,5 @@
 # car-dealership-tool
-==car-dealership-app== is a web application developed using django framework. This system offers user-friendly interface to manage car/bike inventory.
+**car-dealership-app** is a web application developed using django framework. This system offers user-friendly interface to manage car/bike inventory.
 ---
 ## Installation:
     - Create Python Virtual Environment: 
