@@ -4,6 +4,25 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  {% comment %}  onsubmit="return validateForm();"<script>
+    function validateForm() {
+      var brand = document.getElementById("brand").value;
+      var vehicleName = document.getElementById("vehicle_name").value;
+      var vehicleNo = document.getElementById("vehicle_no").value;
+      var chassisNo = document.getElementById("chassis_no").value;
+      var engineNo = document.getElementById("engine_no").value;
+      var financeName = document.getElementById("Finance_Name").value;
+      var purchasedDate = document.getElementById("purchased_date").value;
+      var purchasedPrice = document.getElementById("purchased_price").value;
+      if (brand === "" || vehicleName === "" || vehicleNo === "" || chassisNo === "" || 
+          engineNo === "" || financeName === "" || purchasedDate === "" || purchasedPrice === "") {
+        alert("Please fill in all required fields.");
+        return false;
+      }
+      
+      return true;
+    } {% endcomment %}
+  </script>
 </head>
 <body>
   {% include 'used_car/nav_bar.html' %}

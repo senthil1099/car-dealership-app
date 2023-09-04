@@ -19,6 +19,7 @@ from django.views import View
 from django.utils import timezone
 
 
+
 @login_required
 def used_car_detail(request, pk):
     used_car = get_object_or_404(UsedCar, pk=pk)
@@ -38,7 +39,7 @@ def used_car_create(request):
             RequestConfig(request).configure(table)
             return render(request, 'used_car/usedcar_list.html', {'table': table, 'default_date': default_date, 'title': "Cars/Bikes"})
         else:
-            print(form.errors)
+            messages.error(request, "Form submission failed. Please correct the errors below.") 
     else:
         form = UsedCarForm(initial={'purchased_date': default_date})
     return render(request, 'used_car/usedcar_create.html', {'form': form, 'default_date': default_date, 'brands': brands})
@@ -95,14 +96,19 @@ def used_car_list(request):
 
 @login_required
 def sold_list(request):
-
+    search_query = request.GET.get('q', '')
     queryset = UsedCar.objects.filter(status='sold')
+    if search_query:
+        queryset = queryset.filter(
+            Q(vehicle_name__icontains=search_query) | Q(vehicle_no__icontains=search_query)
+        )
 
     queryset = queryset.annotate(total_expense=Sum('charges__spares') + Sum('charges__labour'))
-
+    queryset = queryset.order_by('-purchased_date')
     items_per_page = 10
     paginator = Paginator(queryset, items_per_page)
     page = request.GET.get('page')
+    
     try:
         all_cars = paginator.page(page)
     except PageNotAnInteger:
@@ -113,7 +119,7 @@ def sold_list(request):
     table = SoldUsedCarTable(all_cars)
     RequestConfig(request, paginate={'per_page': items_per_page}).configure(table)
 
-    return render(request, 'used_car/usedcar_list.html', {'table': table, 'all_cars': all_cars, 'title': 'Closed Deals'})
+    return render(request, 'used_car/usedcar_list.html', {'table': table, 'all_cars': all_cars, 'title': 'Closed Deals', 'search_query': search_query})
 
 @login_required
 def charges_list(request):
@@ -238,9 +244,16 @@ def add_customer(request):
 
 @login_required
 def customer_list(request):
+    query = request.GET.get('q')
     customer_list = Customer.objects.filter(interested_vehicle__status='advanced')
+    if query:
+        customer_list = customer_list.filter(
+            Q(name__icontains=query) | Q(contact__icontains=query) |  Q(interested_vehicle__vehicle_name__icontains=query) |
+            Q(interested_vehicle__vehicle_no__icontains=query)
+        )
+
     table = CustomerTable(customer_list)
-    return render(request, 'used_car/customer_list.html', {'table': table})
+    return render(request, 'used_car/customer_list.html', {'table': table, 'query': query})
 
 
 class BrandListView(ListView):
