@@ -63,6 +63,7 @@ class Customer(models.Model):
     interested_vehicle = models.ForeignKey(UsedCar, on_delete=models.CASCADE, verbose_name="Vehicle")
     sell_price = models.DecimalField(max_digits=10, decimal_places=2)
     advance_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    advance_date = models.DateField(default=timezone.now,  verbose_name="DOP")
     
     def __str__(self):
         return self.name

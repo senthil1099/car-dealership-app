@@ -51,8 +51,14 @@
       <input type="number" class="form-control" id="advance_amount" name="advance_amount" placeholder="Enter Advance Amount">
       <span class="error text-danger">{{ form.errors.advance_amount }}</span>
     </div>
+    <div class="form-group">
+      <label for="purchased_date">Date Of Purchase:</label>
+      <input type="date" class="form-control" id="purchased_date" name="purchased_date" value="{{ default_date }}" max="{{ default_date }}">
+      <span class="error text-danger">{{ form.errors.status }}</span>
+    </div>
     
     <button type="submit" class="btn btn-primary">Submit</button>
+    <a href="{% url 'usedcar:used_car_list' %}" class="btn btn-default">Cancel</a>
   </form>
 </div>
 

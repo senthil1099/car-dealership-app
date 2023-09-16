@@ -17,6 +17,7 @@ from datetime import date, timedelta
 from django.views.generic import CreateView, ListView, UpdateView, TemplateView
 from django.views import View
 from django.utils import timezone
+from decimal import Decimal
 
 
 
@@ -24,7 +25,6 @@ from django.utils import timezone
 def used_car_detail(request, pk):
     used_car = get_object_or_404(UsedCar, pk=pk)
     return render(request, 'used_car/usedcar_detail.html', {'used_car': used_car})
-
 
 @login_required
 def used_car_create(request):
@@ -37,7 +37,7 @@ def used_car_create(request):
             queryset = UsedCar.objects.filter(status='available')
             table = UsedCarTable(queryset)
             RequestConfig(request).configure(table)
-            return render(request, 'used_car/usedcar_list.html', {'table': table, 'default_date': default_date, 'title': "Cars/Bikes"})
+            return redirect('usedcar:used_car_list')
         else:
             messages.error(request, "Form submission failed. Please correct the errors below.") 
     else:
@@ -170,7 +170,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('usedcar:used_car_list')  
+            return redirect('usedcar:dashboard')  
         else:
             error_message = "Invalid username or password."
             return render(request, 'used_car/login.html', {'error_message': error_message})
@@ -203,6 +203,7 @@ def pie_chart_view(request):
 
 @login_required
 def add_customer(request):
+    default_date = date.today().strftime('%Y-%m-%d')
     form = CustomerForm()
     used_cars = UsedCar.objects.filter(status='available')
     
@@ -235,8 +236,9 @@ def add_customer(request):
             return redirect('usedcar:customer_list')
         else:
             print(form.errors)
+            form = CustomerForm(initial={'advance_date': default_date})
     
-    return render(request, 'used_car/add_customer.html', {'form': form, 'used_cars': used_cars})
+    return render(request, 'used_car/add_customer.html', {'form': form, 'used_cars': used_cars, 'default_date': default_date})
 
 
 
